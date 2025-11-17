@@ -44,21 +44,17 @@
             <a-entity id="group" position="0 0 0" rotation="0 0 0">
 
                 <!-- Modelo do ring -->
-                <a-entity gltf-model="#boardModel" rotation="90 0 0" position="0 0 0" scale="0.05 0.05 0.05"
-                    axes-helper="size: 0.5"
-                    animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate">
+                <a-entity gltf-model="#boardModel" rotation="90 0 0" position="0 0 0" scale="0.05 0.05 0.05">
                 </a-entity>
 
                 <!-- Modelo do personagem 1-->
-                <a-entity id="character" gltf-model="#characterModel" rotation="90 0 0" position="0 0.3 0.1"
+                <a-entity id=" character" gltf-model="#characterModel" rotation="90 0 0" position="0 0.3 0.1"
                     scale="0.15 0.15 0.15"></a-entity>
 
 
                 <!-- Modelo do personagem 2-->
                 <a-entity id="character2" gltf-model="#characterModel" rotation="90 0 0" position="0 -0.3 0.1"
                     scale="-0.15 0.15 -0.15"></a-entity>
-
-
 
             </a-entity>
 
@@ -95,7 +91,14 @@
         const character = document.querySelector('#character');
 
         character.addEventListener('model-loaded', () => {
-            // character.setAttribute('animation-mixer', { clip: '4Combo_3', loop: 'repeat' });
+            character.setAttribute('animation-mixer', { clip: '4Combo_3', loop: 'repeat' });
+            console.log('Modelo carregado e animação iniciada.');
+        });
+
+        const character2 = document.querySelector('#character2');
+
+        character2.addEventListener('model-loaded', () => {
+            character2.setAttribute('animation-mixer', { clip: '8Jump_sword', loop: 'repeat' });
             console.log('Modelo carregado e animação iniciada.');
         });
     </script>
