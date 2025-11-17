@@ -6,10 +6,29 @@
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.2.0/dist/aframe-extras.min.js"></script>
     <title>Projeto Final IREDE</title>
+
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    <a-scene mindar-image="imageTargetSrc: ./assets/tabuleiro - escala 8.mind" color-space="sRGB"
+
+    <div id="initialScreen">
+        <div class="initial-content">
+            <h1>Projeto Final IREDE</h1>
+            <button id="playButton">Jogar</button>
+            <button id="howToPlayButton">Como Jogar</button>
+            <button id="infoButton">Informações</button>
+        </div>
+    </div>
+
+
+    <div class="ui-bg">
+        <img src="./assets/card.png" class="card card1" onclick="selectCard(this)">
+        <img src="./assets/card.png" class="card card2" onclick="selectCard(this)">
+
+    </div>
+
+    <a-scene id="sceneAR" mindar-image="imageTargetSrc: ./assets/inferno.mind; uiScanning:no;" color-space="sRGB"
         renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false"
         device-orientation-permission-ui="enabled: true">
         <a-assets>
@@ -36,7 +55,7 @@
 
 
                 <!-- Modelo do personagem 2-->
-                <a-entity id="character2" gltf-model="#characterModel" rotation="90 0 0" position="0 -0.3 0.2"
+                <a-entity id="character2" gltf-model="#characterModel" rotation="90 0 0" position="0 -0.3 0.1"
                     scale="-0.15 0.15 -0.15"></a-entity>
 
 
@@ -48,10 +67,30 @@
     </a-scene>
 
     <script>
+        const playButton = document.getElementById('playButton');
+        const initialScreen = document.getElementById('initialScreen');
+        const arScene = document.getElementById('sceneAR'); // Corrigido!
+
+        playButton.addEventListener('click', () => {
+            initialScreen.classList.add('hidden');
+            arScene.classList.add('active');
+        });
+
         const loader = new THREE.GLTFLoader();
         loader.load('./assets/kettle_samurai.glb', (gltf) => {
             console.log(gltf.animations);
         });
+
+
+        function selectCard(element) {
+
+
+            document.querySelectorAll('.card').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            element.classList.add('selected');
+        }
 
         const character = document.querySelector('#character');
 
@@ -59,10 +98,6 @@
             // character.setAttribute('animation-mixer', { clip: '4Combo_3', loop: 'repeat' });
             console.log('Modelo carregado e animação iniciada.');
         });
-
-
-
-
     </script>
 </body>
 
