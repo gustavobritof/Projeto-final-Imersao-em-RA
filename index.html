@@ -13,14 +13,14 @@
 
 <body>
 
-    <!-- <div id="initialScreen">
+    <div id="initialScreen">
         <div class="initial-content">
             <h1>Projeto Final IREDE</h1>
             <button id="playButton">Jogar</button>
             <button id="howToPlayButton">Como Jogar</button>
             <button id="infoButton">Informações</button>
         </div>
-    </div> -->
+    </div>
 
 
     <div id="hud">
@@ -55,12 +55,16 @@
     <a-scene id="sceneAR" mindar-image="imageTargetSrc: ./assets/inferno.mind; uiScanning:no;" color-space="sRGB"
         renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false"
         device-orientation-permission-ui="enabled: false">
+
+        <!-- Modelos -->
         <a-assets>
-            <!-- <img id="card"
-                    src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.png" /> -->
             <a-asset-item id="boardModel" src="./assets/dojo.glb"></a-asset-item>
             <a-asset-item id="characterModel" src="./assets/kettle_samurai.glb"></a-asset-item>
         </a-assets>
+
+        <!-- Luz -->
+        <a-light type="directional" color="#ffffff" intensity="1.5" position="-0.71 1.6 1"></a-light>
+
 
         <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
