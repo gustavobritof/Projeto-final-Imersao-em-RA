@@ -62,13 +62,21 @@
         </div>
     </div>
 
+    <div id="scanMarkerMessage" class="scan-message">
+        <div class="scan-content">
+            <i class="bi bi-camera"></i>
+            <h2>Escaneie o Marcador</h2>
+            <p>Aponte a câmera para o marcador AR para começar</p>
+            <!-- <div class="scan-loader"></div> -->
+        </div>
+    </div>
     <div id="notifications"></div>
 
     <div class="ui-bg">
 
     </div>
 
-    <a-scene id="sceneAR" mindar-image="imageTargetSrc: ./assets/inferno.mind; uiScanning:no;" color-space="sRGB"
+    <a-scene id="sceneAR" mindar-image="imageTargetSrc: ./assets/hiro escala 3.mind;" color-space="sRGB"
         renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false"
         device-orientation-permission-ui="enabled: false">
 
@@ -384,7 +392,34 @@
         let aiHand = [];
         let aiDeck = [];
         let isPlayerTurn = true;
+        let markerDetected = false;
+        const target = document.querySelector('[mindar-image-target]');
 
+        // Modifique o evento targetFound:
+
+        target.addEventListener('targetFound', () => {
+            console.log('Marcador detectado!');
+
+            if (!markerDetected) {
+                markerDetected = true;
+
+                // Remove mensagem de scan
+                document.getElementById('scanMarkerMessage').classList.remove('active');
+
+                // Ativa HUD e UI
+                document.getElementById('hud').classList.add('active');
+                document.querySelector('.ui-bg').classList.add('active');
+
+                // Inicia o jogo
+                setTimeout(() => {
+                    initGame();
+                }, 500);
+            }
+        });
+
+        target.addEventListener('targetLost', () => {
+            console.log('Marcador perdido');
+        });
 
         function createDeck() {
             const deck = [];
@@ -706,18 +741,12 @@
         }
 
 
-
         playButton.addEventListener('click', () => {
             initialScreen.classList.add('hidden');
             arScene.classList.add('active');
 
-            // Ativa o HUD e a UI de cartas
-            document.getElementById('hud').classList.add('active');
-            document.querySelector('.ui-bg').classList.add('active');
-
-            setTimeout(() => {
-                initGame();
-            }, 1000);
+            // Mostra mensagem de scan
+            document.getElementById('scanMarkerMessage').classList.add('active');
         });
 
         const loader = new THREE.GLTFLoader();
