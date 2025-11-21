@@ -7,85 +7,141 @@
     <title>Informações - Projeto Final IREDE</title>
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.2.0/dist/aframe-extras.min.js"></script>
 </head>
 
 <body>
     <div class="info-screen">
         <div class="info-wrapper">
-            <!-- Cabeçalho -->
+
             <div class="info-header">
                 <h1>Informações do Projeto</h1>
             </div>
 
-            <!-- Item 1: Sobre + Modelo -->
+
             <div class="info-item">
                 <div class="info-section">
                     <h2>Sobre o Jogo</h2>
-                    <p>Este é um jogo de cartas em Realidade Aumentada desenvolvido como projeto final da disciplina
-                        IREDE.</p>
-                    <p>Combina elementos de estratégia, sorte e tecnologia AR para criar uma experiência única de jogo.
+                    <p>Este é um jogo de cartas em Realidade Aumentada desenvolvido como projeto da imersão em realidade
+                        aumentada do IREDE.</p>
+                    <p>A ideia é combinar elementos de estratégia, sorte e tecnologia AR para criar uma experiência
+                        única de jogo, fazendo algo similar a jogos de tabuleiro convencionais.
                     </p>
                 </div>
                 <div class="model-viewer">
-                    <div class="model-placeholder">
-                        🎮 Logo do Jogo
-                    </div>
+                    <a-scene embedded style="width: 100%; height: 280px;">
+                        <a-assets>
+                            <a-asset-item id="ring" src="assets/ring final.glb"></a-asset-item>
+                        </a-assets>
+
+                        <a-camera position="0 1 4"></a-camera>
+
+                        <a-entity gltf-model="#ring" animation-mixer="clip: 1_boxing_idle; loop: repeat"
+                            position="0 0 0" scale="0.1 0.1 0.1"
+                            animation="property: rotation; to: 0 360 0; loop: true; dur: 90000; easing: linear">
+                        </a-entity>
+
+                        <a-sky color="#161616"></a-sky>
+                        <!-- <a-light type="ambient" intensity="0.1"></a-light> -->
+                        <a-light type="directional" position="2 7 5" intensity="0.8" color="red"></a-light>
+                        <!-- <a-light type="point" position="0 2 2" intensity="0.5" color="white"></a-light> -->
+                    </a-scene>
                 </div>
             </div>
 
-            <!-- Item 2: Tecnologias + Modelo (ordem invertida) -->
             <div class="info-item">
                 <div class="model-viewer">
-                    <div class="model-placeholder">
-                        💻 Tecnologias AR
-                    </div>
+                    <a-scene embedded style="width: 100%; height: 280px;">
+                        <a-assets>
+                            <a-asset-item id="player1scene2" src="assets/Player1multianimation.glb"></a-asset-item>
+                        </a-assets>
+
+                        <a-camera position="0 2.5 6"></a-camera>
+
+                        <a-entity gltf-model="#player1scene2" animation-mixer="clip: armada ; loop: repeat"
+                            position="0 -1 0">
+                        </a-entity>
+
+                        <a-sky color="#161616"></a-sky>
+                        <a-light type="ambient" intensity="0.3"></a-light>
+                        <a-light type="directional" position="2 4 2" intensity="0.8" color="#ff0000"></a-light>
+                        <a-light type="point" position="0 2 2" intensity="0.5" color="#ff4444"></a-light>
+                    </a-scene>
                 </div>
                 <div class="info-section">
                     <h2>Tecnologias Utilizadas</h2>
                     <ul>
-                        <li><strong>A-Frame:</strong> Framework WebXR para experiências 3D e AR</li>
-                        <li><strong>MindAR:</strong> Biblioteca de rastreamento de marcadores</li>
-                        <li><strong>Three.js:</strong> Biblioteca JavaScript para gráficos 3D</li>
-                        <li><strong>HTML5/CSS3/JavaScript:</strong> Tecnologias web modernas</li>
+                        <li><strong>A-Frame:</strong> Para exibição 3D e AR</li>
+                        <li><strong>MindAR:</strong> Para rastreamento dos marcadores</li>
+                        <li><strong>Three.js:</strong> Biblioteca para gráficos 3D (A-Frame roda em cima do Three.js)
+                        </li>
+                        <li><strong>HTML5/CSS3/JavaScript:</strong> Tecnologias web comuns</li>
                     </ul>
                 </div>
             </div>
 
-            <!-- Item 3: Créditos + Modelo -->
             <div class="info-item">
                 <div class="info-section">
-                    <h2>Créditos</h2>
-                    <p><strong>Desenvolvedor:</strong> Gustavo</p>
-                    <p><strong>Disciplina:</strong> IREDE</p>
-                    <p><strong>Instituição:</strong> UFRPE</p>
-                    <p><strong>Ano:</strong> 2025</p>
-                </div>
-                <div class="model-viewer">
-                    <div class="model-placeholder">
-                        🎓 Logo UFRPE
-                    </div>
-                </div>
-            </div>
+                    <h2>Créditos do Projeto</h2>
+                    <p><strong>Desenvolvedor:</strong> Gustavo Brito</p>
+                    <p><strong>Novembro de 2025</strong> </p>
 
-            <!-- Item 4: Requisitos + Modelo (ordem invertida) -->
-            <div class="info-item">
-                <div class="model-viewer">
-                    <div class="model-placeholder">
-                        📱 Dispositivos
-                    </div>
-                </div>
-                <div class="info-section">
-                    <h2>Requisitos do Sistema</h2>
-                    <ul>
-                        <li>Navegador moderno (Chrome, Firefox, Safari)</li>
-                        <li>Câmera funcional</li>
-                        <li>Marcador AR impresso ou em tela</li>
-                        <li>Conexão com internet</li>
+                    <h3 style="color: #AEEF17; margin-top: 25px; margin-bottom: 15px; font-size: 1.3em;">Modelos 3D</h3>
+                    <ul style="font-size: 0.9em; line-height: 1.6;">
+                        <li><strong>Personagens:</strong> BOXER LIGHT 2 por PONCHIK (<a href="https://skfb.ly/VNtK"
+                                target="_blank" style="color: #AEEF17;">Sketchfab</a>) - CC Attribution</li>
+                        <li><strong>Ring:</strong> Boxing Ring por Mahmoud (<a href="https://skfb.ly/oQREA"
+                                target="_blank" style="color: #AEEF17;">Sketchfab</a>) - CC Attribution</li>
+                        <li><strong>Dado D10:</strong> Unlabeled D10 por Chesyon (<a href="https://skfb.ly/owr6v"
+                                target="_blank" style="color: #AEEF17;">Sketchfab</a>) - CC Attribution</li>
+                    </ul>
+
+                    <h3 style="color: #AEEF17; margin-top: 20px; margin-bottom: 15px; font-size: 1.3em;">Design de
+                        Cartas</h3>
+                    <ul style="font-size: 0.9em; line-height: 1.6;">
+                        <li><strong>Imagens de Fundo:</strong> AI Studio (modelo Imagen 4)</li>
+                        <li><strong>Edição:</strong> Inkscape</li>
+                        <li><strong>Moldura:</strong> Wooden Panel por <a
+                                href="https://pngtree.com/freepng/wooden-panel-for-game-ui-in-cartoon-style_13018788.html"
+                                target="_blank" style="color: #AEEF17;">PNGTree</a></li>
                     </ul>
                 </div>
+                <div class="model-viewer">
+                    <a-scene embedded style="width: 100%; height: 280px;">
+                        <a-assets>
+                            <a-asset-item id="ringCredit" src="assets/ring final.glb"></a-asset-item>
+                            <a-asset-item id="char1Credit" src="assets/Player1multianimation.glb"></a-asset-item>
+                            <a-asset-item id="char2Credit" src="assets/Player2multianimation.glb"></a-asset-item>
+                        </a-assets>
+
+                        <a-camera position="0 1.5 4"></a-camera>
+
+                        <!-- Ring -->
+                        <a-entity gltf-model="#ringCredit" position="0 0 0" scale="0.12 0.12 0.12"
+                            animation="property: rotation; to: 0 360 0; loop: true; dur: 20000; easing: linear">
+                        </a-entity>
+
+                        <!-- Personagem 1 (Vermelho) -->
+                        <a-entity gltf-model="#char1Credit" animation-mixer="clip:armada; loop: repeat"
+                            position="0 0 0.3" rotation="0 180 0" scale="0.2 0.2 0.2" crossFadeDuration="0.2">
+                        </a-entity>
+
+                        <!-- Personagem 2 (Verde) -->
+                        <a-entity gltf-model="#char2Credit" animation-mixer="clip:armada to esquiva; loop: repeat"
+                            position="0 0 0" rotation="0 0 0" scale="0.2 0.2 0.2" crossFadeDuration="0.2">
+                        </a-entity>
+
+                        <a-sky color="#161616"></a-sky>
+                        <a-light type="ambient" intensity="0.3"></a-light>
+                        <a-light type="directional" position="2 4 2" intensity="0.8" color="#ff0000"></a-light>
+                        <a-light type="directional" position="-2 4 2" intensity="0.8" color="#aeef17"></a-light>
+                        <a-light type="point" position="0 2 0" intensity="0.5" color="#ffffff"></a-light>
+                    </a-scene>
+                </div>
             </div>
 
-            <!-- Rodapé -->
+
+
             <div class="info-footer">
                 <button class="back-button" onclick="location.href='index.html'">
                     ← Voltar ao Menu

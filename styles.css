@@ -936,15 +936,15 @@
         /* Visualizador de modelo - ocupa 1/3 */
         .model-viewer {
             flex: 1;
-            background: #1a1a1a;
-            border: 2px solid #AEEF17;
+
+
             border-radius: 12px;
             padding: 20px;
             min-height: 300px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 20px rgba(174, 239, 23, 0.1);
+
         }
 
         .model-viewer a-scene {

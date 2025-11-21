@@ -22,7 +22,7 @@
             <div class="info-item">
                 <div class="info-section">
                     <h2>Objetivo</h2>
-                    <p>Derrote a IA reduzindo seu HP a zero antes que ela faça o mesmo com você!</p>
+                    <p>Derrote a IA reduzindo seu HP a zero, ela tentará fazer o mesmo com você!</p>
                 </div>
                 <div class="model-viewer">
                     <a-scene embedded style="width: 100%; height: 280px;">
@@ -30,7 +30,7 @@
                             <a-asset-item id="player2scene1" src="assets/Player2multianimation.glb"></a-asset-item>
                         </a-assets>
 
-                        <a-camera position="0 1.6 4"></a-camera>
+                        <a-camera position="0 1 4"></a-camera>
 
                         <a-entity gltf-model="#player2scene1" animation-mixer="clip: 1_boxing_idle; loop: repeat"
                             position="0 -1 0">
@@ -52,7 +52,7 @@
                             <a-asset-item id="player1scene2" src="assets/Player1multianimation.glb"></a-asset-item>
                         </a-assets>
 
-                        <a-camera position="0 1.6 4"></a-camera>
+                        <a-camera position="0 1 4"></a-camera>
 
                         <a-entity gltf-model="#player1scene2" animation-mixer="clip: 1_boxing_idle ; loop: repeat"
                             position="0 -1 0">
@@ -69,8 +69,8 @@
                     <ul>
                         <li><strong>HP Inicial:</strong> Ambos começam com 100 HP</li>
                         <li><strong>Mão Inicial:</strong> 5 cartas</li>
-                        <li><strong>Limite de Mão:</strong> 7 cartas máximo</li>
-                        <li><strong>Sistema de Turnos:</strong> Você joga, depois a IA</li>
+                        <li><strong>Limite cartaas na Mão:</strong> 7 cartas</li>
+                        <li><strong>Sistema de Turnos:</strong> Jogador primeiro, CPU depois</li>
                     </ul>
                 </div>
             </div>
@@ -81,9 +81,17 @@
                     <h2>Tipos de Cartas</h2>
                     <ul>
                         <li><strong>Ataque (1-3):</strong> Causa dano baseado no dado (1-10)</li>
+                        <strong>O dano é calculado pela multiplicação do valor do dado pelo valor da carta, dividido
+                            pela resistência do adversário</strong>
+                        <br>
+                        <br>
                         <li><strong>Cura (10-30 HP):</strong> Recupera vida</li>
-                        <li><strong>Esquiva:</strong> Bloqueia o próximo ataque</li>
+                        <li><strong>Bloqueio:</strong> Bloqueia o próximo ataque</li>
                         <li><strong>Puxar (1-2):</strong> Compra cartas adicionais</li>
+                        <strong>Se o jogador já estiver com a mão cheia, as cartas mais à esquerda serão
+                            descartadas</strong>
+                        <br>
+                        <br>
                         <li><strong>Buff Ataque (0.2-0.3x):</strong> Aumenta dano</li>
                         <li><strong>Buff Defesa (0.2-0.3):</strong> Aumenta resistência</li>
                     </ul>
