@@ -62,14 +62,15 @@
         </div>
     </div>
 
-    <div id="scanMarkerMessage" class="scan-message">
+    <!-- <div id="scanMarkerMessage" class="scan-message">
         <div class="scan-content">
             <i class="bi bi-camera"></i>
             <h2>Escaneie o Marcador</h2>
             <p>Aponte a câmera para o marcador AR para começar</p>
-            <!-- <div class="scan-loader"></div> -->
+             <div class="scan-loader"></div> 
         </div>
-    </div>
+    </div> -->
+
     <div id="notifications"></div>
 
     <div class="ui-bg">
@@ -88,7 +89,7 @@
         </a-assets>
 
         <a-light type="directional" color="#ffffff" intensity="1.5" position="-0.71 1.6 1"></a-light>
-        <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+        <a-camera position="0 0 0" look-controls="enabled: false" wasd-controls="enabled: false"></a-camera>
 
         <a-entity mindar-image-target="targetIndex: 0">
             <a-entity id="group" position="0 0 0" rotation="0 0 0">
@@ -395,7 +396,6 @@
         let markerDetected = false;
         const target = document.querySelector('[mindar-image-target]');
 
-        // Modifique o evento targetFound:
 
         target.addEventListener('targetFound', () => {
             console.log('Marcador detectado!');
@@ -404,7 +404,7 @@
                 markerDetected = true;
 
                 // Remove mensagem de scan
-                document.getElementById('scanMarkerMessage').classList.remove('active');
+                // document.getElementById('scanMarkerMessage').classList.remove('active');
 
                 // Ativa HUD e UI
                 document.getElementById('hud').classList.add('active');
@@ -746,7 +746,7 @@
             arScene.classList.add('active');
 
             // Mostra mensagem de scan
-            document.getElementById('scanMarkerMessage').classList.add('active');
+            // document.getElementById('scanMarkerMessage').classList.add('active');
         });
 
         const loader = new THREE.GLTFLoader();

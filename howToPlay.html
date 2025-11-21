@@ -30,7 +30,8 @@
                             <a-asset-item id="player2scene1" src="assets/Player2multianimation.glb"></a-asset-item>
                         </a-assets>
 
-                        <a-camera position="0 1 4"></a-camera>
+                        <a-camera position="0 1 4" look-controls="enabled: false"
+                            wasd-controls="enabled: false"></a-camera>
 
                         <a-entity gltf-model="#player2scene1" animation-mixer="clip: 1_boxing_idle; loop: repeat"
                             position="0 -1 0">
@@ -52,7 +53,8 @@
                             <a-asset-item id="player1scene2" src="assets/Player1multianimation.glb"></a-asset-item>
                         </a-assets>
 
-                        <a-camera position="0 1 4"></a-camera>
+                        <a-camera position="0 1 4" look-controls="enabled: false"
+                            wasd-controls="enabled: false"></a-camera>
 
                         <a-entity gltf-model="#player1scene2" animation-mixer="clip: 1_boxing_idle ; loop: repeat"
                             position="0 -1 0">
@@ -102,7 +104,8 @@
                             <img id="cardTexture" src="assets/cards/cura10.png">
                         </a-assets>
 
-                        <a-camera position="0 0 3"></a-camera>
+                        <a-camera position="0 0 3" look-controls="enabled: false"
+                            wasd-controls="enabled: false"></a-camera>
 
                         <a-plane src="#cardTexture" width="1.8" height="2.5" position="0 0 0" material="side: double"
                             animation="property: rotation; to: 0 360 0; loop: true; dur: 6000; easing: linear">
@@ -124,7 +127,8 @@
                             <a-asset-item id="dice" src="assets/d10.glb"></a-asset-item>
                         </a-assets>
 
-                        <a-camera position="0 0 2"></a-camera>
+                        <a-camera position="0 0 2" look-controls="enabled: false"
+                            wasd-controls="enabled: false"></a-camera>
 
                         <a-entity gltf-model="#dice" position="0 0 0" scale="0.08 0.08 0.08" rotation="90 0 0"
                             animation="property: rotation; to: 90 360 0; loop: true; dur: 5000; easing: linear">
