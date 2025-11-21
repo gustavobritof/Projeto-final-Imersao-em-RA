@@ -14,41 +14,55 @@
 <body>
 
     <div id="initialScreen">
+
+        <a-scene>
+            <a-assets>
+                <a-asset-item id="boardModel" src="./assets/ring final.glb"></a-asset-item>
+            </a-assets>
+            <a-entity gltf-model="#boardModel" rotation="0 -28.52 0" position="-0.32 -0.67 10.44"></a-entity>
+        </a-scene>
+
         <div class="initial-content">
             <h1>Projeto Final IREDE</h1>
             <button id="playButton">Jogar</button>
-            <button id="howToPlayButton">Como Jogar</button>
-            <button id="infoButton">Informações</button>
+            <button id="howToPlayButton" onclick="location.href='howToPlay.html'">Como Jogar</button>
+            <button id="infoButton" onclick="location.href='infos.html'">Informações</button>
         </div>
+    </div>
     </div>
 
 
     <div id="hud">
-        <div class="player-stats">
-            <span>Você</span>
-            <div class="hp-bar">
-                <div id="hp1" class="hp-fill"></div>
+        <div class="hp-container">
+            <div class="player-stats">
+                <span>VOCÊ</span>
+                <div class="hp-bar">
+                    <div id="hp1" class="hp-fill"></div>
+                </div>
+                <div class="stats">
+                    <span id="player1-dmg">ATK: 1.0x</span>
+                    <span id="player1-def">DEF: ÷1.0</span>
+                </div>
             </div>
-            <div class="stats">
-                <span id="player1-dmg">DMG: 1.0x</span>
-                <span id="player1-def">DEF: ÷1.0</span>
-            </div>
-        </div>
 
-        <button id="pauseButton" class="bi bi-pause-circle-fill" style="color:black"> Pausar</button>
-
-        <div class="player-stats">
-            <span>Inimigo</span>
-            <div class="hp-bar enemy">
-                <div id="hp2" class="hp-fill"></div>
+            <div class="center-info">
+                <div class="round-text">VS</div>
             </div>
-            <div class="stats">
-                <span id="player2-dmg">DMG: 1.0x</span>
-                <span id="player2-def">DEF: ÷1.0</span>
+
+            <div class="player-stats enemy">
+                <span>INIMIGO</span>
+                <div class="hp-bar enemy">
+                    <div id="hp2" class="hp-fill"></div>
+                </div>
+                <div class="stats">
+                    <span id="player2-dmg">ATK: 1.0x</span>
+                    <span id="player2-def">DEF: ÷1.0</span>
+                </div>
             </div>
         </div>
     </div>
 
+    <div id="notifications"></div>
 
     <div class="ui-bg">
 
@@ -58,39 +72,66 @@
         renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false"
         device-orientation-permission-ui="enabled: false">
 
-        <!-- Modelos -->
         <a-assets>
             <a-asset-item id="boardModel" src="./assets/ring final.glb"></a-asset-item>
             <a-asset-item id="character1Asset" src="./assets/Player1multianimation.glb"></a-asset-item>
             <a-asset-item id="character2Asset" src="./assets/Player2multianimation.glb"></a-asset-item>
+            <a-asset-item id="diceModel" src="./assets/d10.glb"></a-asset-item>
+            <a-asset-item id="greenEffects1" src="./assets/appearance_effect_light_beam.glb"></a-asset-item>
         </a-assets>
 
-        <!-- Luz -->
         <a-light type="directional" color="#ffffff" intensity="1.5" position="-0.71 1.6 1"></a-light>
-
-
         <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
         <a-entity mindar-image-target="targetIndex: 0">
             <a-entity id="group" position="0 0 0" rotation="0 0 0">
-
-                <!--  ring -->
-                <a-entity gltf-model="#boardModel" rotation="90 0 0" position="0 0 0" scale="0.08 0.08 0.08">
-                </a-entity>
-
-                <!--  personagem 1-->
+                <a-entity gltf-model="#boardModel" rotation="90 0 0" position="0 0 0" scale="0.08 0.08 0.08"></a-entity>
                 <a-entity id="character1" gltf-model="#character1Asset" rotation="90 0 0" position="0 0.3 0.1"
                     scale="0.15 0.15 0.15"></a-entity>
-
-
-                <!--  personagem 2-->
                 <a-entity id="character2" gltf-model="#character2Asset" rotation="90 0 0" position="0 -0.3 0.1"
                     scale="-0.15 0.15 -0.15"></a-entity>
-
             </a-entity>
+
+
+            <a-entity id="dice" gltf-model="#diceModel" rotation="90 0 0" position="-0.55 -0.03 0.34"
+                scale="0.006 0.006 0.006" visible="false">
+            </a-entity>
+
+
+
+
+            <!-- <a-entity id="diceText" text="value: 0; color: #FFD700; align: center; width: 2" position="-0.55 0.03 0.34"
+                rotation=" 90 0 0" scale="0 0 0" visible="false"> -->
+        </a-entity>
         </a-entity>
 
     </a-scene>
+
+    <!-- Tela de Game Over -->
+    <div id="gameOverScreen" class="hidden">
+        <div class="game-over-content">
+            <h1 id="winnerText">VITÓRIA!</h1>
+            <p id="winnerSubtext">Você derrotou a IA!</p>
+            <div class="game-over-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Sua Vida Final:</span>
+                    <span id="finalHP1" class="stat-value">100</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Vida do Inimigo:</span>
+                    <span id="finalHP2" class="stat-value">0</span>
+                </div>
+            </div>
+            <div class="game-over-buttons">
+                <button id="playAgainButton" class="game-over-btn primary">
+                    <i class="bi bi-arrow-repeat"></i> Jogar Novamente
+                </button>
+                <button id="backToMenuButton" class="game-over-btn secondary">
+                    <i class="bi bi-house-door"></i> Menu Inicial
+                </button>
+            </div>
+        </div>
+    </div>
 
     <script>
 
@@ -104,31 +145,31 @@
                 animation: '10_recover',
                 image: './assets/cards/cura10.png'
             },
-            heal_medium: {
-                id: 'heal_medium',
-                name: 'Cura Média',
-                type: 'heal',
-                value: 20,
-                animation: '10_recover',
-                image: './assets/cards/cura20.png'
-            },
-            heal_large: {
-                id: 'heal_large',
-                name: 'Cura Grande',
-                type: 'heal',
-                value: 30,
-                animation: '10_recover',
-                image: './assets/cards/cura30.png'
-            },
+            // heal_medium: {
+            //     id: 'heal_medium',
+            //     name: 'Cura Média',
+            //     type: 'heal',
+            //     value: 20,
+            //     animation: '10_recover',
+            //     image: './assets/cards/cura20.png'
+            // },
+            // heal_large: {
+            //     id: 'heal_large',
+            //     name: 'Cura Grande',
+            //     type: 'heal',
+            //     value: 30,
+            //     animation: '10_recover',
+            //     image: './assets/cards/cura30.png'
+            // },
 
 
             damage_low: {
                 id: 'damage_low',
                 name: 'Ataque Leve',
                 type: 'damage',
-                baseValue: 10,
+                baseValue: 1,
                 animation: '6_attack_punch',
-                image: './assets/cards/dano10.png'
+                image: './assets/cards/dano1.png'
             },
             damage_medium: {
                 id: 'damage_medium',
@@ -136,7 +177,7 @@
                 type: 'damage',
                 baseValue: 2,
                 animation: '9_attack_hook_punch',
-                image: './assets/cards/dano20.png'
+                image: './assets/cards/dano2.png'
             },
             damage_high: {
                 id: 'damage_high',
@@ -144,7 +185,7 @@
                 type: 'damage',
                 baseValue: 3,
                 animation: 'armada',
-                image: './assets/cards/dano30.png'
+                image: './assets/cards/dano3.png'
             },
 
             block: {
@@ -225,14 +266,12 @@
 
             takeDamage(amount) {
                 if (this.isBlocking) {
-                    console.log(`${this.id} bloqueou o ataque!`);
                     this.isBlocking = false;
                     return 0;
                 }
 
                 const finalDamage = Math.floor(amount / this.resistanceDivisor);
                 this.hp = Math.max(0, this.hp - finalDamage);
-                console.log(`${this.id} recebeu ${finalDamage} de dano (HP: ${this.hp})`);
                 return finalDamage;
             }
 
@@ -240,7 +279,6 @@
                 const oldHP = this.hp;
                 this.hp = Math.min(this.maxHP, this.hp + amount);
                 const healed = this.hp - oldHP;
-                console.log(`${this.id} curou ${healed} HP (HP: ${this.hp})`);
                 return healed;
             }
 
@@ -250,8 +288,88 @@
             }
         }
 
+        // Função para mostrar e rolar o dado
+        function showDiceRoll(result) {
+            const dice = document.querySelector('#dice');
+            const diceText = document.querySelector('#diceText');
+
+            dice.setAttribute('visible', 'true');
+            dice.setAttribute('scale', '0.006 0.006 0.006');
+
+            dice.setAttribute('animation', {
+                property: 'position',
+                from: '0 0 0.2',
+                to: '-0.55 -0.03 0.34',
+                dur: 300,
+                easing: 'easeOutQuad'
+            });
+
+            // Rotação aleatória
+            const randomRotationX = Math.random() * 720 + 360;
+            const randomRotationY = Math.random() * 720 + 360;
+            const randomRotationZ = Math.random() * 720 + 360;
+
+            dice.setAttribute('animation__rotate', {
+                property: 'rotation',
+                from: '90 0 0',
+                to: `${90 + randomRotationX} ${randomRotationY} ${randomRotationZ}`,
+                dur: 1000,
+                easing: 'easeOutCubic'
+            });
+
+            // Mostra o número após a rotação
+            setTimeout(() => {
+                diceText.setAttribute('visible', 'true');
+                diceText.setAttribute('text', 'value', result);
+                diceText.setAttribute('scale', '1 1 1');
+                console.log(`🎲 Resultado do dado: ${result}`);
+            }, 1000);
+
+            // Esconde tudo após 1.5 segundos
+            // setTimeout(() => {
+            //     dice.setAttribute('animation__scale', {
+            //         property: 'scale',
+            //         to: '0 0 0',
+            //         dur: 300,
+            //         easing: 'easeInQuad'
+            //     });
+
+            //     diceText.setAttribute('scale', '0 0 0');
+
+            //     setTimeout(() => {
+            //         dice.setAttribute('visible', 'false');
+            //         diceText.setAttribute('visible', 'false');
+            //     }, 300);
+            // }, 2000);
+        }
+
         function rollDice() {
-            return Math.floor(Math.random() * 6) + 1;
+            const result = Math.floor(Math.random() * 10) + 1;
+            showDiceRoll(result);
+            return result;
+        }
+
+        // Sistema de notificações
+        function showNotification(message, type = 'info', duration = 4000) {
+            const notifContainer = document.getElementById('notifications');
+            const notif = document.createElement('div');
+            notif.className = `notification ${type}`;
+            notif.textContent = message;
+
+            notifContainer.appendChild(notif);
+
+            // Anima entrada
+            setTimeout(() => {
+                notif.classList.add('show');
+            }, 10);
+
+            // Remove após duração
+            setTimeout(() => {
+                notif.classList.remove('show');
+                setTimeout(() => {
+                    notif.remove();
+                }, 300);
+            }, duration);
         }
 
         // Variáveis globais
@@ -262,9 +380,12 @@
         let selectedCard = null;
         let selectedCardData = null;
         let player1, player2;
-
         let playerHand = [];
         let playerDeck = [];
+        let aiHand = [];
+        let aiDeck = [];
+        let isPlayerTurn = true;
+
 
         function createDeck() {
             const deck = [];
@@ -283,45 +404,297 @@
             return deck;
         }
 
+        function createAIDeck() {
+            const deck = [];
+
+            Object.keys(cardDatabase).forEach(key => {
+                deck.push(cardDatabase[key]);
+            });
+
+            // Embaralha o baralho
+            for (let i = deck.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [deck[i], deck[j]] = [deck[j], deck[i]];
+            }
+
+            return deck;
+        }
+
 
         function drawCardsFromDeck(amount) {
-            const maxHandSize = 5;
+            const maxHandSize = 7;
             let drawn = 0;
+            let discarded = [];
+
+            // Calcula quantas cartas serão descartadas
+            const excessCards = (playerHand.length + amount) - maxHandSize;
+
+            if (excessCards > 0) {
+                // Remove as primeiras cartas (mais antigas)
+                discarded = playerHand.splice(0, excessCards);
+                console.log(`⚠️ Descartou ${excessCards} carta(s): ${discarded.map(c => c.name).join(', ')}`);
+
+                // Anima as cartas sendo descartadas
+                animateDiscardedCards(discarded);
+            }
 
             while (playerHand.length < maxHandSize && drawn < amount) {
-
                 if (playerDeck.length === 0) {
-                    console.log('Reembaralhando');
+                    console.log('🔄 Reembaralhando baralho');
                     playerDeck = createDeck();
                 }
 
                 const card = playerDeck.shift();
                 playerHand.push(card);
                 drawn++;
-                console.log(` Puxou carta: ${card.name}`);
+                console.log(`📜 Puxou carta: ${card.name}`);
             }
 
-            console.log(` Cartas no baralho: ${playerDeck.length}`);
-            console.log(` Cartas na mão: ${playerHand.length}`);
+            console.log(`🃏 Cartas no baralho: ${playerDeck.length}`);
+            console.log(`✋ Cartas na mão: ${playerHand.length}`);
 
             return drawn;
         }
 
+        function animateDiscardedCards(cards) {
+            const handContainer = document.querySelector('.ui-bg');
 
+            cards.forEach((card, index) => {
+                // Cria elemento visual da carta sendo descartada
+                const discardElement = document.createElement('img');
+                discardElement.src = card.image || './assets/card.png';
+                discardElement.className = 'card-discard';
+                discardElement.style.cssText = `
+            position: absolute;
+            width: 180px;
+            bottom: 50px;
+            left: ${15 + (index * 13)}%;
+            z-index: 5;
+        `;
+
+                handContainer.appendChild(discardElement);
+
+                // Anima para fora da tela
+                setTimeout(() => {
+                    discardElement.style.animation = 'cardDiscard 0.8s ease-in forwards';
+
+                    // Remove do DOM após animação
+                    setTimeout(() => {
+                        discardElement.remove();
+                    }, 800);
+                }, 100);
+            });
+        }
+
+        function drawAICards(amount) {
+            const maxHandSize = 7;
+            let drawn = 0;
+            let discarded = [];
+
+            // Calcula quantas cartas serão descartadas
+            const excessCards = (aiHand.length + amount) - maxHandSize;
+
+            if (excessCards > 0) {
+                // Remove as primeiras cartas (mais antigas)
+                discarded = aiHand.splice(0, excessCards);
+                console.log(` IA descartou ${excessCards} carta(s): ${discarded.map(c => c.name).join(', ')}`);
+            }
+
+            while (aiHand.length < maxHandSize && drawn < amount) {
+                if (aiDeck.length === 0) {
+                    console.log(' IA: Reembaralhando baralho');
+                    aiDeck = createAIDeck();
+                }
+
+                const card = aiDeck.shift();
+                aiHand.push(card);
+                drawn++;
+                console.log(` IA puxou: ${card.name}`);
+            }
+
+            console.log(` IA - Cartas no baralho: ${aiDeck.length}`);
+            console.log(` IA - Cartas na mão: ${aiHand.length}`);
+
+            return drawn;
+        }
+
+        function aiDecideCard() {
+            if (aiHand.length === 0) {
+                console.log(' IA não tem cartas!');
+                return null;
+            }
+
+            const ai = player2;
+            const player = player1;
+
+            // Prioridades da IA:
+            // 1. Se HP < 30, tentar curar
+            if (ai.hp < 30) {
+                const healCard = aiHand.find(c => c.type === 'heal');
+                if (healCard) {
+                    console.log(' IA decidiu curar (HP baixo)');
+                    return healCard;
+                }
+            }
+
+            // 2. Se tem poucas cartas (menos de 5), puxar mais
+            if (aiHand.length <= 4) {
+                const drawCard = aiHand.find(c => c.type === 'draw');
+                if (drawCard) {
+                    console.log(' IA decidiu puxar cartas (mão pequena)');
+                    return drawCard;
+                }
+            }
+
+            // 3. Usar buff se multiplicador baixo
+            if (ai.damageMultiplier < 1.5) {
+                const buffCard = aiHand.find(c => c.type === 'buff' && c.stat === 'damageMultiplier');
+                if (buffCard) {
+                    console.log('🤖 IA decidiu usar buff de dano');
+                    return buffCard;
+                }
+            }
+
+            // 4. Bloquear se o jogador tem HP alto e IA tem HP baixo
+            if (player.hp > ai.hp + 30) {
+                const blockCard = aiHand.find(c => c.type === 'block');
+                if (blockCard) {
+                    console.log(' IA decidiu bloquear (defesa)');
+                    return blockCard;
+                }
+            }
+
+            // 5. Atacar com a carta de maior dano disponível
+            const damageCards = aiHand.filter(c => c.type === 'damage');
+            if (damageCards.length > 0) {
+                const strongestCard = damageCards.reduce((prev, curr) =>
+                    curr.baseValue > prev.baseValue ? curr : prev
+                );
+                console.log('🤖 IA decidiu atacar');
+                return strongestCard;
+            }
+
+            // 6. Jogar qualquer carta aleatória
+            const randomIndex = Math.floor(Math.random() * aiHand.length);
+            console.log('🤖 IA jogou carta aleatória');
+            return aiHand[randomIndex];
+        }
+
+        function aiTurn() {
+            console.log('\n🤖 === Turno da IA ===');
+
+            // Aguarda 1.5 segundos antes de jogar
+            setTimeout(() => {
+                const chosenCard = aiDecideCard();
+
+                if (!chosenCard) {
+                    console.log('🤖 IA passou a vez');
+                    isPlayerTurn = true;
+                    drawCardsFromDeck(1);
+                    renderHandWithAnimation(1);
+                    return;
+                }
+
+                showNotification(`IA usou: ${chosenCard.name}`, 'enemy', 3000);
+
+                const attacker = player2;
+                const defender = player1;
+
+                attacker.characterElement.setAttribute('animation-mixer', {
+                    clip: chosenCard.animation,
+                    loop: 'once',
+                    clampWhenFinished: true
+                });
+
+                setTimeout(() => {
+                    // Processa efeito da carta
+                    switch (chosenCard.type) {
+                        case 'damage':
+                            const dice = rollDice();
+
+                            // Aguarda a animação do dado
+                            setTimeout(() => {
+                                const baseDamage = chosenCard.baseValue * dice;
+                                const finalDamage = Math.floor(baseDamage * attacker.damageMultiplier);
+                                const actualDamage = defender.takeDamage(finalDamage);
+
+                                if (actualDamage === 0) {
+                                    showNotification(`Você bloqueou o ataque!`, 'success', 2500);
+                                } else {
+                                    showNotification(`Dado: ${dice} | Você recebeu ${actualDamage} de dano!`, 'damage', 3000);
+                                }
+
+                                // MOVA updateHP(), updateStats() e checkGameOver() para aqui
+                                updateHP();
+                                updateStats();
+                                checkGameOver();
+                            }, 1200);
+                            break;
+                        case 'heal':
+                            const healed = attacker.heal(chosenCard.value);
+                            showNotification(`IA curou ${healed} HP`, 'enemy', 2500);
+                            updateHP();
+                            updateStats();
+                            break;
+
+                        case 'block':
+                            attacker.isBlocking = true;
+                            showNotification(`IA está preparada para bloquear!`, 'enemy', 2500);
+                            break;
+
+                        case 'draw':
+                            const drawnCards = drawAICards(chosenCard.value);
+                            showNotification(`IA puxou ${drawnCards} carta(s)`, 'enemy', 2500);
+                            break;
+
+                        case 'buff':
+                            attacker.addBuff(chosenCard.stat, chosenCard.value);
+                            const buffType = chosenCard.stat === 'damageMultiplier' ? 'Ataque' : 'Defesa';
+                            showNotification(`IA aumentou ${buffType}!`, 'enemy', 2500);
+                            updateStats();
+                            break;
+                    }
+
+                    // Remove carta da mão da IA
+                    const cardIndex = aiHand.findIndex(c => c.id === chosenCard.id);
+                    if (cardIndex > -1) {
+                        aiHand.splice(cardIndex, 1);
+                    }
+
+                    // IA puxa 1 carta no final do turno
+                    drawAICards(1);
+
+
+
+                    // Volta para idle
+                    setTimeout(() => {
+                        attacker.characterElement.setAttribute('animation-mixer', {
+                            clip: '1_boxing_idle',
+                            loop: 'repeat'
+                        });
+
+                        isPlayerTurn = true;
+                        drawCardsFromDeck(1);
+                        renderHandWithAnimation(1);
+                    }, 1500);
+
+                }, 500);
+
+            }, 1500);
+        }
 
         function initGame() {
             const char1 = document.querySelector('#character1');
             const char2 = document.querySelector('#character2');
 
-            player1 = new Player('Player 1', char1);
-            player2 = new Player('Player 2', char2);
-
+            player1 = new Player('Jogador', char1);
+            player2 = new Player('IA', char2);
 
             playerDeck = createDeck();
-            console.log(` Baralho criado com ${playerDeck.length} cartas`);
-
-
             drawCardsFromDeck(5);
+
+            aiDeck = createAIDeck();
+            drawAICards(5);
 
             updateHP();
             updateStats();
@@ -330,28 +703,7 @@
 
 
         function renderHand() {
-            const handContainer = document.querySelector('.ui-bg');
-            handContainer.innerHTML = '';
-
-            playerHand.forEach((card, index) => {
-
-                const cardElement = document.createElement('img');
-                cardElement.src = card.image || './assets/card.png';
-                cardElement.className = `card card${index + 1}`;
-                cardElement.dataset.cardId = card.id;
-                cardElement.onclick = () => selectCard(cardElement, card);
-                cardElement.title = card.name;
-
-                handContainer.appendChild(cardElement);
-            });
-
-
-            const playButton = document.createElement('button');
-            playButton.id = 'playCardButton';
-            playButton.className = 'play-button';
-            playButton.textContent = 'Jogar Carta';
-            playButton.onclick = playCard;
-            handContainer.appendChild(playButton);
+            renderHandWithAnimation(0);
         }
 
 
@@ -360,6 +712,9 @@
             initialScreen.classList.add('hidden');
             arScene.classList.add('active');
 
+            // Ativa o HUD e a UI de cartas
+            document.getElementById('hud').classList.add('active');
+            document.querySelector('.ui-bg').classList.add('active');
 
             setTimeout(() => {
                 initGame();
@@ -391,13 +746,25 @@
                 return;
             }
 
+            if (!isPlayerTurn) {
+                alert('Aguarde o turno da IA!');
+                return;
+            }
+
             const card = selectedCardData;
             const attacker = player1;
             const defender = player2;
 
             console.log(`\n=== ${attacker.id} jogou ${card.name} ===`);
+            showNotification(`Você usou: ${card.name}`, 'player', 3000);
 
+            isPlayerTurn = false; // Bloqueia o jogador de jogar novamente
 
+            // Adiciona animação de jogar carta
+            selectedCard.classList.add('playing');
+            selectedCard.classList.remove('selected');
+
+            // Executa animação do personagem
             attacker.characterElement.setAttribute('animation-mixer', {
                 clip: card.animation,
                 loop: 'once',
@@ -405,47 +772,50 @@
             });
 
             setTimeout(() => {
-
+                // Processa efeito da carta
                 switch (card.type) {
                     case 'damage':
                         const dice = rollDice();
                         const baseDamage = card.baseValue * dice;
                         const finalDamage = Math.floor(baseDamage * attacker.damageMultiplier);
                         const actualDamage = defender.takeDamage(finalDamage);
-                        console.log(`🎲 Dado: ${dice} | Base: ${card.baseValue} × ${dice} = ${baseDamage}`);
-                        console.log(`⚔️ Dano final: ${baseDamage} × ${attacker.damageMultiplier.toFixed(2)} = ${finalDamage}`);
-                        console.log(`💥 Dano recebido: ${finalDamage} ÷ ${defender.resistanceDivisor.toFixed(2)} = ${actualDamage}`);
+
+                        if (actualDamage === 0) {
+                            showNotification(`IA bloqueou seu ataque!`, 'info', 2500);
+                        } else {
+                            showNotification(`Dado: ${dice} | ${dice}×${card.baseValue} | Causou ${actualDamage} de dano!`, 'success', 3000);
+                        }
                         break;
 
                     case 'heal':
                         const healed = attacker.heal(card.value);
-                        console.log(`💚 Curou ${healed} HP`);
+                        showNotification(`Você curou ${healed} HP`, 'success', 2500);
                         break;
 
                     case 'block':
                         attacker.isBlocking = true;
-                        console.log(`🛡️ ${attacker.id} vai bloquear o próximo ataque`);
+                        showNotification(`Preparado para bloquear!`, 'success', 2500);
                         break;
 
                     case 'draw':
                         const drawnCards = drawCardsFromDeck(card.value);
-                        console.log(`🃏 Puxou ${drawnCards} cartas do baralho`);
+                        showNotification(`Você puxou ${drawnCards} carta(s)`, 'success', 2500);
                         break;
 
                     case 'buff':
                         attacker.addBuff(card.stat, card.value);
-                        console.log(`⬆️ ${card.name}`);
+                        const buffType = card.stat === 'damageMultiplier' ? 'Ataque' : 'Defesa';
+                        showNotification(`${buffType} aumentado!`, 'success', 2500);
                         break;
                 }
 
-
+                // Remove carta da mão
                 const cardIndex = playerHand.findIndex(c => c.id === card.id);
                 if (cardIndex > -1) {
                     playerHand.splice(cardIndex, 1);
                 }
 
-
-                drawCardsFromDeck(1);
+                // NÃO puxa carta aqui, só no início do próximo turno
 
                 updateHP();
                 updateStats();
@@ -454,17 +824,67 @@
                 selectedCard = null;
                 selectedCardData = null;
 
-                renderHand();
+                // Espera a animação de jogar terminar
+                setTimeout(() => {
+                    renderHandWithAnimation(0); // Reorganiza sem puxar carta nova
+                }, 1000);
 
-
+                // Volta para idle
                 setTimeout(() => {
                     attacker.characterElement.setAttribute('animation-mixer', {
                         clip: '1_boxing_idle',
                         loop: 'repeat'
                     });
+
+                    // Inicia turno da IA
+                    aiTurn();
+
                 }, 1500);
             }, 500);
         }
+
+        function renderHandWithAnimation(newCardsCount = 0) {
+            const handContainer = document.querySelector('.ui-bg');
+            handContainer.innerHTML = '';
+
+            playerHand.forEach((card, index) => {
+                const cardElement = document.createElement('img');
+                cardElement.src = card.image || './assets/card.png';
+                cardElement.className = `card card${index + 1}`;
+                cardElement.dataset.cardId = card.id;
+                cardElement.onclick = () => selectCard(cardElement, card);
+                cardElement.title = card.name;
+
+                // Se é uma das novas cartas, adiciona animação de entrada
+                if (index >= playerHand.length - newCardsCount) {
+                    cardElement.classList.add('drawing');
+
+                    // Remove a classe após a animação terminar
+                    setTimeout(() => {
+                        cardElement.classList.remove('drawing');
+                    }, 800); // Duração da animação cardDraw
+                } else {
+                    // Cartas antigas reorganizando
+                    cardElement.classList.add('reorganizing');
+
+                    // Remove a classe após a transição
+                    setTimeout(() => {
+                        cardElement.classList.remove('reorganizing');
+                    }, 500);
+                }
+
+                handContainer.appendChild(cardElement);
+            });
+
+            // Adiciona botão de jogar carta
+            const playButton = document.createElement('button');
+            playButton.id = 'playCardButton';
+            playButton.className = 'play-button';
+            playButton.textContent = 'Jogar Carta';
+            playButton.onclick = playCard;
+            handContainer.appendChild(playButton);
+        }
+
         function updateHP() {
             document.getElementById('hp1').style.width = player1.hp + '%';
             document.getElementById('hp2').style.width = player2.hp + '%';
@@ -479,17 +899,75 @@
 
         function checkGameOver() {
             if (player1.hp <= 0) {
-                alert('Player 2 venceu! 🎉');
-                resetGame();
+                setTimeout(() => {
+                    showGameOver(false); // Jogador perdeu
+                }, 500);
+                return true;
             } else if (player2.hp <= 0) {
-                alert('Player 1 venceu! 🎉');
-                resetGame();
+                setTimeout(() => {
+                    showGameOver(true); // Jogador venceu
+                }, 500);
+                return true;
             }
+            return false;
         }
 
-        function resetGame() {
+        function showGameOver(playerWon) {
+            const gameOverScreen = document.getElementById('gameOverScreen');
+            const winnerText = document.getElementById('winnerText');
+            const winnerSubtext = document.getElementById('winnerSubtext');
+            const finalHP1 = document.getElementById('finalHP1');
+            const finalHP2 = document.getElementById('finalHP2');
+
+            // Atualiza textos baseado no vencedor
+            if (playerWon) {
+                winnerText.textContent = 'VITÓRIA!';
+                winnerText.style.background = 'linear-gradient(45deg, #FFD700, #FFA500, #FFD700)';
+                winnerSubtext.textContent = 'Você derrotou a IA!';
+            } else {
+                winnerText.textContent = 'DERROTA!';
+                winnerText.style.background = 'linear-gradient(45deg, #FF4444, #CC0000, #FF4444)';
+                winnerSubtext.textContent = 'A IA venceu desta vez...';
+            }
+
+            // Atualiza stats finais
+            finalHP1.textContent = player1.hp;
+            finalHP2.textContent = player2.hp;
+
+            // Mostra a tela
+            gameOverScreen.classList.remove('hidden');
+
+            // Oculta o HUD e cartas
+            document.getElementById('hud').classList.remove('active');
+            document.querySelector('.ui-bg').classList.remove('active');
+        }
+
+        function restartGame() {
+            // Reseta tudo
+            const gameOverScreen = document.getElementById('gameOverScreen');
+            gameOverScreen.classList.add('hidden');
+
+            // Limpa mãos e decks
+            playerHand = [];
+            playerDeck = [];
+            aiHand = [];
+            aiDeck = [];
+
+            // Mostra HUD novamente
+            document.getElementById('hud').classList.add('active');
+            document.querySelector('.ui-bg').classList.add('active');
+
+            // Reinicia o jogo
+            initGame();
+        }
+
+        function backToMenu() {
             location.reload();
         }
+
+        // Adicione os event listeners dos botões
+        document.getElementById('playAgainButton').addEventListener('click', restartGame);
+        document.getElementById('backToMenuButton').addEventListener('click', backToMenu);
 
 
 
