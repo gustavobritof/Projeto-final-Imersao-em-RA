@@ -50,7 +50,7 @@
             </div>
 
             <div class="player-stats enemy">
-                <span>INIMIGO</span>
+                <span>CPU</span>
                 <div class="hp-bar enemy">
                     <div id="hp2" class="hp-fill"></div>
                 </div>
@@ -110,14 +110,14 @@
     <div id="gameOverScreen" class="hidden">
         <div class="game-over-content">
             <h1 id="winnerText">VITÓRIA!</h1>
-            <p id="winnerSubtext">Você derrotou a IA!</p>
+            <p id="winnerSubtext">Você derrotou a CPU!</p>
             <div class="game-over-stats">
                 <div class="stat-item">
                     <span class="stat-label">Sua Vida Final:</span>
                     <span id="finalHP1" class="stat-value">100</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-label">Vida do Inimigo:</span>
+                    <span class="stat-label">Vida do CPU:</span>
                     <span id="finalHP2" class="stat-value">0</span>
                 </div>
             </div>
@@ -321,10 +321,10 @@
                 diceText.setAttribute('visible', 'true');
                 diceText.setAttribute('text', 'value', result);
                 diceText.setAttribute('scale', '1 1 1');
-                console.log(`🎲 Resultado do dado: ${result}`);
+                console.log(`Resultado do dado: ${result}`);
             }, 1000);
 
-            // Esconde tudo após 1.5 segundos
+            // 
             // setTimeout(() => {
             //     dice.setAttribute('animation__scale', {
             //         property: 'scale',
@@ -431,7 +431,7 @@
             if (excessCards > 0) {
                 // Remove as primeiras cartas (mais antigas)
                 discarded = playerHand.splice(0, excessCards);
-                console.log(`⚠️ Descartou ${excessCards} carta(s): ${discarded.map(c => c.name).join(', ')}`);
+                console.log(`Descartou ${excessCards} carta(s): ${discarded.map(c => c.name).join(', ')}`);
 
                 // Anima as cartas sendo descartadas
                 animateDiscardedCards(discarded);
@@ -439,18 +439,18 @@
 
             while (playerHand.length < maxHandSize && drawn < amount) {
                 if (playerDeck.length === 0) {
-                    console.log('🔄 Reembaralhando baralho');
+                    console.log('Reembaralhando baralho');
                     playerDeck = createDeck();
                 }
 
                 const card = playerDeck.shift();
                 playerHand.push(card);
                 drawn++;
-                console.log(`📜 Puxou carta: ${card.name}`);
+                console.log(`Puxou carta: ${card.name}`);
             }
 
-            console.log(`🃏 Cartas no baralho: ${playerDeck.length}`);
-            console.log(`✋ Cartas na mão: ${playerHand.length}`);
+            console.log(`Cartas no baralho: ${playerDeck.length}`);
+            console.log(`Cartas na mão: ${playerHand.length}`);
 
             return drawn;
         }
@@ -496,42 +496,42 @@
             if (excessCards > 0) {
                 // Remove as primeiras cartas (mais antigas)
                 discarded = aiHand.splice(0, excessCards);
-                console.log(` IA descartou ${excessCards} carta(s): ${discarded.map(c => c.name).join(', ')}`);
+                console.log(` CPU descartou ${excessCards} carta(s): ${discarded.map(c => c.name).join(', ')}`);
             }
 
             while (aiHand.length < maxHandSize && drawn < amount) {
                 if (aiDeck.length === 0) {
-                    console.log(' IA: Reembaralhando baralho');
+                    console.log(' CPU: Reembaralhando baralho');
                     aiDeck = createAIDeck();
                 }
 
                 const card = aiDeck.shift();
                 aiHand.push(card);
                 drawn++;
-                console.log(` IA puxou: ${card.name}`);
+                console.log(` CPU puxou: ${card.name}`);
             }
 
-            console.log(` IA - Cartas no baralho: ${aiDeck.length}`);
-            console.log(` IA - Cartas na mão: ${aiHand.length}`);
+            console.log(` CPU - Cartas no baralho: ${aiDeck.length}`);
+            console.log(` CPU - Cartas na mão: ${aiHand.length}`);
 
             return drawn;
         }
 
         function aiDecideCard() {
             if (aiHand.length === 0) {
-                console.log(' IA não tem cartas!');
+                console.log(' CPU não tem cartas!');
                 return null;
             }
 
             const ai = player2;
             const player = player1;
 
-            // Prioridades da IA:
+            // Prioridades da CPU:
             // 1. Se HP < 30, tentar curar
             if (ai.hp < 30) {
                 const healCard = aiHand.find(c => c.type === 'heal');
                 if (healCard) {
-                    console.log(' IA decidiu curar (HP baixo)');
+                    console.log(' CPU decidiu curar (HP baixo)');
                     return healCard;
                 }
             }
@@ -540,7 +540,7 @@
             if (aiHand.length <= 4) {
                 const drawCard = aiHand.find(c => c.type === 'draw');
                 if (drawCard) {
-                    console.log(' IA decidiu puxar cartas (mão pequena)');
+                    console.log(' CPU decidiu puxar cartas (mão pequena)');
                     return drawCard;
                 }
             }
@@ -549,16 +549,16 @@
             if (ai.damageMultiplier < 1.5) {
                 const buffCard = aiHand.find(c => c.type === 'buff' && c.stat === 'damageMultiplier');
                 if (buffCard) {
-                    console.log('🤖 IA decidiu usar buff de dano');
+                    console.log('CPU decidiu usar buff de dano');
                     return buffCard;
                 }
             }
 
-            // 4. Bloquear se o jogador tem HP alto e IA tem HP baixo
+            // 4. Bloquear se o jogador tem HP alto e CPU tem HP baixo
             if (player.hp > ai.hp + 30) {
                 const blockCard = aiHand.find(c => c.type === 'block');
                 if (blockCard) {
-                    console.log(' IA decidiu bloquear (defesa)');
+                    console.log(' CPU decidiu bloquear (defesa)');
                     return blockCard;
                 }
             }
@@ -569,32 +569,32 @@
                 const strongestCard = damageCards.reduce((prev, curr) =>
                     curr.baseValue > prev.baseValue ? curr : prev
                 );
-                console.log('🤖 IA decidiu atacar');
+                console.log('CPU decidiu atacar');
                 return strongestCard;
             }
 
             // 6. Jogar qualquer carta aleatória
             const randomIndex = Math.floor(Math.random() * aiHand.length);
-            console.log('🤖 IA jogou carta aleatória');
+            console.log('CPU jogou carta aleatória');
             return aiHand[randomIndex];
         }
 
         function aiTurn() {
-            console.log('\n🤖 === Turno da IA ===');
+            console.log('\n=== Turno da CPU ===');
 
             // Aguarda 1.5 segundos antes de jogar
             setTimeout(() => {
                 const chosenCard = aiDecideCard();
 
                 if (!chosenCard) {
-                    console.log('🤖 IA passou a vez');
+                    console.log('CPU passou a vez');
                     isPlayerTurn = true;
                     drawCardsFromDeck(1);
                     renderHandWithAnimation(1);
                     return;
                 }
 
-                showNotification(`IA usou: ${chosenCard.name}`, 'enemy', 3000);
+                showNotification(`CPU usou: ${chosenCard.name}`, 'enemy', 3000);
 
                 const attacker = player2;
                 const defender = player1;
@@ -631,36 +631,36 @@
                             break;
                         case 'heal':
                             const healed = attacker.heal(chosenCard.value);
-                            showNotification(`IA curou ${healed} HP`, 'enemy', 2500);
+                            showNotification(`CPU curou ${healed} HP`, 'enemy', 2500);
                             updateHP();
                             updateStats();
                             break;
 
                         case 'block':
                             attacker.isBlocking = true;
-                            showNotification(`IA está preparada para bloquear!`, 'enemy', 2500);
+                            showNotification(`CPU está preparada para bloquear!`, 'enemy', 2500);
                             break;
 
                         case 'draw':
                             const drawnCards = drawAICards(chosenCard.value);
-                            showNotification(`IA puxou ${drawnCards} carta(s)`, 'enemy', 2500);
+                            showNotification(`CPU puxou ${drawnCards} carta(s)`, 'enemy', 2500);
                             break;
 
                         case 'buff':
                             attacker.addBuff(chosenCard.stat, chosenCard.value);
                             const buffType = chosenCard.stat === 'damageMultiplier' ? 'Ataque' : 'Defesa';
-                            showNotification(`IA aumentou ${buffType}!`, 'enemy', 2500);
+                            showNotification(`CPU aumentou ${buffType}!`, 'enemy', 2500);
                             updateStats();
                             break;
                     }
 
-                    // Remove carta da mão da IA
+                    // Remove carta da mão da CPU
                     const cardIndex = aiHand.findIndex(c => c.id === chosenCard.id);
                     if (cardIndex > -1) {
                         aiHand.splice(cardIndex, 1);
                     }
 
-                    // IA puxa 1 carta no final do turno
+                    // CPU puxa 1 carta no final do turno
                     drawAICards(1);
 
 
@@ -687,7 +687,7 @@
             const char2 = document.querySelector('#character2');
 
             player1 = new Player('Jogador', char1);
-            player2 = new Player('IA', char2);
+            player2 = new Player('CPU', char2);
 
             playerDeck = createDeck();
             drawCardsFromDeck(5);
@@ -746,7 +746,7 @@
             }
 
             if (!isPlayerTurn) {
-                alert('Aguarde o turno da IA!');
+                alert('Aguarde o turno da CPU!');
                 return;
             }
 
@@ -757,13 +757,11 @@
             console.log(`\n=== ${attacker.id} jogou ${card.name} ===`);
             showNotification(`Você usou: ${card.name}`, 'player', 3000);
 
-            isPlayerTurn = false; // Bloqueia o jogador de jogar novamente
+            isPlayerTurn = false;
 
-            // Adiciona animação de jogar carta
             selectedCard.classList.add('playing');
             selectedCard.classList.remove('selected');
 
-            // Executa animação do personagem
             attacker.characterElement.setAttribute('animation-mixer', {
                 clip: card.animation,
                 loop: 'once',
@@ -771,7 +769,8 @@
             });
 
             setTimeout(() => {
-                // Processa efeito da carta
+                let cardsDrawnThisTurn = 0; // Contador de cartas puxadas
+
                 switch (card.type) {
                     case 'damage':
                         const dice = rollDice();
@@ -780,7 +779,7 @@
                         const actualDamage = defender.takeDamage(finalDamage);
 
                         if (actualDamage === 0) {
-                            showNotification(`IA bloqueou seu ataque!`, 'info', 2500);
+                            showNotification(`CPU bloqueou seu ataque!`, 'info', 2500);
                         } else {
                             showNotification(`Dado: ${dice} | ${dice}×${card.baseValue} | Causou ${actualDamage} de dano!`, 'success', 3000);
                         }
@@ -797,8 +796,8 @@
                         break;
 
                     case 'draw':
-                        const drawnCards = drawCardsFromDeck(card.value);
-                        showNotification(`Você puxou ${drawnCards} carta(s)`, 'success', 2500);
+                        cardsDrawnThisTurn = drawCardsFromDeck(card.value);
+                        showNotification(`Você puxou ${cardsDrawnThisTurn} carta(s)`, 'success', 2500);
                         break;
 
                     case 'buff':
@@ -814,8 +813,6 @@
                     playerHand.splice(cardIndex, 1);
                 }
 
-                // NÃO puxa carta aqui, só no início do próximo turno
-
                 updateHP();
                 updateStats();
                 checkGameOver();
@@ -823,25 +820,21 @@
                 selectedCard = null;
                 selectedCardData = null;
 
-                // Espera a animação de jogar terminar
                 setTimeout(() => {
-                    renderHandWithAnimation(0); // Reorganiza sem puxar carta nova
+                    // Renderiza COM animação das cartas puxadas durante o turno
+                    renderHandWithAnimation(cardsDrawnThisTurn);
                 }, 1000);
 
-                // Volta para idle
                 setTimeout(() => {
                     attacker.characterElement.setAttribute('animation-mixer', {
                         clip: '1_boxing_idle',
                         loop: 'repeat'
                     });
 
-                    // Inicia turno da IA
                     aiTurn();
-
                 }, 1500);
             }, 500);
         }
-
         function renderHandWithAnimation(newCardsCount = 0) {
             const handContainer = document.querySelector('.ui-bg');
             handContainer.innerHTML = '';
@@ -922,11 +915,11 @@
             if (playerWon) {
                 winnerText.textContent = 'VITÓRIA!';
                 winnerText.style.background = 'linear-gradient(45deg, #FFD700, #FFA500, #FFD700)';
-                winnerSubtext.textContent = 'Você derrotou a IA!';
+                winnerSubtext.textContent = 'Você derrotou a CPU!';
             } else {
                 winnerText.textContent = 'DERROTA!';
                 winnerText.style.background = 'linear-gradient(45deg, #FF4444, #CC0000, #FF4444)';
-                winnerSubtext.textContent = 'A IA venceu desta vez...';
+                winnerSubtext.textContent = 'A CPU venceu desta vez...';
             }
 
             // Atualiza stats finais
