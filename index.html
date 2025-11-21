@@ -24,32 +24,34 @@
 
 
     <div id="hud">
-        <span>Você</span>
-        <div class="hp-bar">
-
-            <div id="hp1" class="hp-fill"></div>
+        <div class="player-stats">
+            <span>Você</span>
+            <div class="hp-bar">
+                <div id="hp1" class="hp-fill"></div>
+            </div>
+            <div class="stats">
+                <span id="player1-dmg">DMG: 1.0x</span>
+                <span id="player1-def">DEF: ÷1.0</span>
+            </div>
         </div>
 
         <button id="pauseButton" class="bi bi-pause-circle-fill" style="color:black"> Pausar</button>
 
-        <span>Inimigo</span>
-        <div class="hp-bar enemy">
-            <div id="hp2" class="hp-fill"></div>
+        <div class="player-stats">
+            <span>Inimigo</span>
+            <div class="hp-bar enemy">
+                <div id="hp2" class="hp-fill"></div>
+            </div>
+            <div class="stats">
+                <span id="player2-dmg">DMG: 1.0x</span>
+                <span id="player2-def">DEF: ÷1.0</span>
+            </div>
         </div>
     </div>
 
 
     <div class="ui-bg">
-        <img src="./assets/card.png" class="card card1" data-type="attack" data-damage="20" data-animation="4Combo_3"
-            onclick="selectCard(this)">
-        <img src="./assets/card.png" class="card card2" data-type="defense" data-block="15" data-animation="Idle"
-            onclick="selectCard(this)">
-        <img src="./assets/card.png" class="card card3" data-type="special" data-damage="35"
-            data-animation="8Jump_sword" onclick="selectCard(this)">
-        <img src="./assets/card.png" class="card card4" data-type="heal" data-heal="10" data-animation="Idle"
-            onclick="selectCard(this)">
 
-        <button id="playCardButton" class="play-button" onclick="playCard()">Jogar Carta</button>
     </div>
 
     <a-scene id="sceneAR" mindar-image="imageTargetSrc: ./assets/inferno.mind; uiScanning:no;" color-space="sRGB"
@@ -58,8 +60,9 @@
 
         <!-- Modelos -->
         <a-assets>
-            <a-asset-item id="boardModel" src="./assets/dojo.glb"></a-asset-item>
-            <a-asset-item id="characterModel" src="./assets/kettle_samurai.glb"></a-asset-item>
+            <a-asset-item id="boardModel" src="./assets/ring final.glb"></a-asset-item>
+            <a-asset-item id="character1Asset" src="./assets/Player1multianimation.glb"></a-asset-item>
+            <a-asset-item id="character2Asset" src="./assets/Player2multianimation.glb"></a-asset-item>
         </a-assets>
 
         <!-- Luz -->
@@ -71,20 +74,17 @@
         <a-entity mindar-image-target="targetIndex: 0">
             <a-entity id="group" position="0 0 0" rotation="0 0 0">
 
-                <!-- Modelo do dojo - rotacionado só no X -->
-
-                <a-entity id="group" position="0 0 0" rotation="0 0 90">
-                    <a-entity id="dojo" gltf-model="#boardModel" rotation="90 0 0" position="0 0 0"
-                        scale="0.15 0.15 0.15">
-                    </a-entity>
+                <!--  ring -->
+                <a-entity gltf-model="#boardModel" rotation="90 0 0" position="0 0 0" scale="0.08 0.08 0.08">
                 </a-entity>
 
-                <!-- Modelo do personagem 1 - rotacionado só no X -->
-                <a-entity id="character" gltf-model="#characterModel" rotation="90 0 0" position="0 0.285 0.02"
+                <!--  personagem 1-->
+                <a-entity id="character1" gltf-model="#character1Asset" rotation="90 0 0" position="0 0.3 0.1"
                     scale="0.15 0.15 0.15"></a-entity>
 
-                <!-- Modelo do personagem 2 - rotacionado só no X -->
-                <a-entity id="character2" gltf-model="#characterModel" rotation="90 0 0" position="0 -0.285 0.02"
+
+                <!--  personagem 2-->
+                <a-entity id="character2" gltf-model="#character2Asset" rotation="90 0 0" position="0 -0.3 0.1"
                     scale="-0.15 0.15 -0.15"></a-entity>
 
             </a-entity>
@@ -93,131 +93,418 @@
     </a-scene>
 
     <script>
+
+        const cardDatabase = {
+
+            heal_small: {
+                id: 'heal_small',
+                name: 'Cura Pequena',
+                type: 'heal',
+                value: 10,
+                animation: '10_recover',
+                image: './assets/cards/cura10.png'
+            },
+            heal_medium: {
+                id: 'heal_medium',
+                name: 'Cura Média',
+                type: 'heal',
+                value: 20,
+                animation: '10_recover',
+                image: './assets/cards/cura20.png'
+            },
+            heal_large: {
+                id: 'heal_large',
+                name: 'Cura Grande',
+                type: 'heal',
+                value: 30,
+                animation: '10_recover',
+                image: './assets/cards/cura30.png'
+            },
+
+
+            damage_low: {
+                id: 'damage_low',
+                name: 'Ataque Leve',
+                type: 'damage',
+                baseValue: 10,
+                animation: '6_attack_punch',
+                image: './assets/cards/dano10.png'
+            },
+            damage_medium: {
+                id: 'damage_medium',
+                name: 'Ataque Médio',
+                type: 'damage',
+                baseValue: 2,
+                animation: '9_attack_hook_punch',
+                image: './assets/cards/dano20.png'
+            },
+            damage_high: {
+                id: 'damage_high',
+                name: 'Ataque Forte',
+                type: 'damage',
+                baseValue: 3,
+                animation: 'armada',
+                image: './assets/cards/dano30.png'
+            },
+
+            block: {
+                id: 'block',
+                name: 'Esquiva',
+                type: 'block',
+                animation: '5_standing_block_idle',
+                image: './assets/cards/bloqueio.png'
+            },
+
+            draw_2: {
+                id: 'draw_1',
+                name: 'Puxar 1 Cartas',
+                type: 'draw',
+                value: 1,
+                animation: '2_draw_cards',
+                image: './assets/cards/puxe1.png'
+            },
+            draw_3: {
+                id: 'draw_2',
+                name: 'Puxar 2 Cartas',
+                type: 'draw',
+                value: 2,
+                animation: '2_draw_cards',
+                image: './assets/cards/puxe2.png'
+            },
+
+            buff_damage_0_2: {
+                id: 'buff_damage_0_2',
+                name: 'Aumentar Dano',
+                type: 'buff',
+                stat: 'damageMultiplier',
+                value: 0.2,
+                animation: '3_attributes_buff',
+                image: './assets/cards/dano02.png'
+            },
+            buff_damage_0_3: {
+                id: 'buff_damage_0_3',
+                name: 'Aumentar Dano',
+                type: 'buff',
+                stat: 'damageMultiplier',
+                value: 0.3,
+                animation: '3_attributes_buff',
+                image: './assets/cards/dano03.png'
+            },
+
+            buff_defense_0_2: {
+                id: 'buff_defense_0_2',
+                name: 'Aumentar Resistência',
+                type: 'buff',
+                stat: 'resistanceDivisor',
+                value: 0.2,
+                animation: '3_attributes_buff',
+                image: './assets/cards/res02.png'
+            },
+            buff_defense_0_3: {
+                id: 'buff_defense_0_3',
+                name: 'Aumentar Resistência',
+                type: 'buff',
+                stat: 'resistanceDivisor',
+                value: 0.3,
+                animation: '3_attributes_buff',
+                image: './assets/cards/res03.png'
+            }
+        };
+
+
+        class Player {
+            constructor(id, characterElement) {
+                this.id = id;
+                this.hp = 100;
+                this.maxHP = 100;
+                this.damageMultiplier = 1.0;
+                this.resistanceDivisor = 1.0;
+                this.isBlocking = false;
+                this.characterElement = characterElement;
+            }
+
+            takeDamage(amount) {
+                if (this.isBlocking) {
+                    console.log(`${this.id} bloqueou o ataque!`);
+                    this.isBlocking = false;
+                    return 0;
+                }
+
+                const finalDamage = Math.floor(amount / this.resistanceDivisor);
+                this.hp = Math.max(0, this.hp - finalDamage);
+                console.log(`${this.id} recebeu ${finalDamage} de dano (HP: ${this.hp})`);
+                return finalDamage;
+            }
+
+            heal(amount) {
+                const oldHP = this.hp;
+                this.hp = Math.min(this.maxHP, this.hp + amount);
+                const healed = this.hp - oldHP;
+                console.log(`${this.id} curou ${healed} HP (HP: ${this.hp})`);
+                return healed;
+            }
+
+            addBuff(stat, value) {
+                this[stat] += value;
+                console.log(`${this.id} aumentou ${stat} para ${this[stat].toFixed(2)}`);
+            }
+        }
+
+        function rollDice() {
+            return Math.floor(Math.random() * 6) + 1;
+        }
+
+        // Variáveis globais
         const playButton = document.getElementById('playButton');
         const initialScreen = document.getElementById('initialScreen');
         const arScene = document.getElementById('sceneAR');
 
         let selectedCard = null;
-        let player1HP = 100;
-        let player2HP = 100;
-        let currentTurn = 1; // 1 para jogador 1, 2 para jogador 2
+        let selectedCardData = null;
+        let player1, player2;
+
+        let playerHand = [];
+        let playerDeck = [];
+
+        function createDeck() {
+            const deck = [];
+
+
+            Object.keys(cardDatabase).forEach(key => {
+                deck.push(cardDatabase[key]);
+            });
+
+            // Embaralha o baralho
+            for (let i = deck.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [deck[i], deck[j]] = [deck[j], deck[i]];
+            }
+
+            return deck;
+        }
+
+
+        function drawCardsFromDeck(amount) {
+            const maxHandSize = 5;
+            let drawn = 0;
+
+            while (playerHand.length < maxHandSize && drawn < amount) {
+
+                if (playerDeck.length === 0) {
+                    console.log('Reembaralhando');
+                    playerDeck = createDeck();
+                }
+
+                const card = playerDeck.shift();
+                playerHand.push(card);
+                drawn++;
+                console.log(` Puxou carta: ${card.name}`);
+            }
+
+            console.log(` Cartas no baralho: ${playerDeck.length}`);
+            console.log(` Cartas na mão: ${playerHand.length}`);
+
+            return drawn;
+        }
+
+
+
+        function initGame() {
+            const char1 = document.querySelector('#character1');
+            const char2 = document.querySelector('#character2');
+
+            player1 = new Player('Player 1', char1);
+            player2 = new Player('Player 2', char2);
+
+
+            playerDeck = createDeck();
+            console.log(` Baralho criado com ${playerDeck.length} cartas`);
+
+
+            drawCardsFromDeck(5);
+
+            updateHP();
+            updateStats();
+            renderHand();
+        }
+
+
+        function renderHand() {
+            const handContainer = document.querySelector('.ui-bg');
+            handContainer.innerHTML = '';
+
+            playerHand.forEach((card, index) => {
+
+                const cardElement = document.createElement('img');
+                cardElement.src = card.image || './assets/card.png';
+                cardElement.className = `card card${index + 1}`;
+                cardElement.dataset.cardId = card.id;
+                cardElement.onclick = () => selectCard(cardElement, card);
+                cardElement.title = card.name;
+
+                handContainer.appendChild(cardElement);
+            });
+
+
+            const playButton = document.createElement('button');
+            playButton.id = 'playCardButton';
+            playButton.className = 'play-button';
+            playButton.textContent = 'Jogar Carta';
+            playButton.onclick = playCard;
+            handContainer.appendChild(playButton);
+        }
+
+
 
         playButton.addEventListener('click', () => {
             initialScreen.classList.add('hidden');
             arScene.classList.add('active');
+
+
+            setTimeout(() => {
+                initGame();
+            }, 1000);
         });
 
         const loader = new THREE.GLTFLoader();
-        loader.load('./assets/kettle_samurai.glb', (gltf) => {
+        loader.load('./assets/Player1multianimation.glb', (gltf) => {
             console.log(gltf.animations);
         });
 
 
-        function selectCard(element) {
+
+        function selectCard(element, cardData) {
             document.querySelectorAll('.card').forEach(card => {
                 card.classList.remove('selected');
             });
+
             element.classList.add('selected');
             selectedCard = element;
+            selectedCardData = cardData;
+
+            console.log(`Carta selecionada: ${cardData.name}`);
         }
 
         function playCard() {
-            if (!selectedCard) {
+            if (!selectedCardData) {
                 alert('Selecione uma carta primeiro!');
                 return;
             }
 
+            const card = selectedCardData;
+            const attacker = player1;
+            const defender = player2;
 
-            const cardType = selectedCard.getAttribute('data-type');
-            const animation = selectedCard.dataset.animation;
-
-            console.log(`Tocando animação: ${animation}`);
-
-            const attacker = currentTurn === 1 ?
-                document.querySelector('#character') :
-                document.querySelector('#character2');
-
-            const defender = currentTurn === 1 ?
-                document.querySelector('#character2') :
-                document.querySelector('#character');
+            console.log(`\n=== ${attacker.id} jogou ${card.name} ===`);
 
 
-            attacker.setAttribute('animation-mixer', {
-                clip: animation,
+            attacker.characterElement.setAttribute('animation-mixer', {
+                clip: card.animation,
                 loop: 'once',
                 clampWhenFinished: true
             });
 
-            console.log(`Jogador ${currentTurn} jogou uma carta de tipo: ${cardType}`);
-
-
             setTimeout(() => {
-                switch (cardType) {
-                    case 'attack':
-                        const damage = parseInt(selectedCard.dataset.damage);
-                        if (currentTurn === 1) {
-                            player2HP = Math.max(0, player2HP - damage);
-                        } else {
-                            player1HP = Math.max(0, player1HP - damage);
-                        }
-                        console.log(`Dano: ${damage}`);
+
+                switch (card.type) {
+                    case 'damage':
+                        const dice = rollDice();
+                        const baseDamage = card.baseValue * dice;
+                        const finalDamage = Math.floor(baseDamage * attacker.damageMultiplier);
+                        const actualDamage = defender.takeDamage(finalDamage);
+                        console.log(`🎲 Dado: ${dice} | Base: ${card.baseValue} × ${dice} = ${baseDamage}`);
+                        console.log(`⚔️ Dano final: ${baseDamage} × ${attacker.damageMultiplier.toFixed(2)} = ${finalDamage}`);
+                        console.log(`💥 Dano recebido: ${finalDamage} ÷ ${defender.resistanceDivisor.toFixed(2)} = ${actualDamage}`);
+                        break;
+
+                    case 'heal':
+                        const healed = attacker.heal(card.value);
+                        console.log(`💚 Curou ${healed} HP`);
+                        break;
+
+                    case 'block':
+                        attacker.isBlocking = true;
+                        console.log(`🛡️ ${attacker.id} vai bloquear o próximo ataque`);
+                        break;
+
+                    case 'draw':
+                        const drawnCards = drawCardsFromDeck(card.value);
+                        console.log(`🃏 Puxou ${drawnCards} cartas do baralho`);
+                        break;
+
+                    case 'buff':
+                        attacker.addBuff(card.stat, card.value);
+                        console.log(`⬆️ ${card.name}`);
                         break;
                 }
 
+
+                const cardIndex = playerHand.findIndex(c => c.id === card.id);
+                if (cardIndex > -1) {
+                    playerHand.splice(cardIndex, 1);
+                }
+
+
+                drawCardsFromDeck(1);
+
                 updateHP();
+                updateStats();
                 checkGameOver();
 
-                currentTurn = currentTurn === 1 ? 2 : 1;
-                selectedCard.classList.remove('selected');
                 selectedCard = null;
+                selectedCardData = null;
 
-                // Volta para idle após animação
+                renderHand();
+
+
                 setTimeout(() => {
-                    attacker.setAttribute('animation-mixer', {
-                        clip: 'Idle',
+                    attacker.characterElement.setAttribute('animation-mixer', {
+                        clip: '1_boxing_idle',
                         loop: 'repeat'
                     });
                 }, 1500);
             }, 500);
         }
-
         function updateHP() {
-            document.getElementById('hp1').style.width = player1HP + '%';
-            document.getElementById('hp2').style.width = player2HP + '%';
+            document.getElementById('hp1').style.width = player1.hp + '%';
+            document.getElementById('hp2').style.width = player2.hp + '%';
+        }
+
+        function updateStats() {
+            document.getElementById('player1-dmg').textContent = `DMG: ${player1.damageMultiplier.toFixed(1)}x`;
+            document.getElementById('player1-def').textContent = `DEF: ÷${player1.resistanceDivisor.toFixed(1)}`;
+            document.getElementById('player2-dmg').textContent = `DMG: ${player2.damageMultiplier.toFixed(1)}x`;
+            document.getElementById('player2-def').textContent = `DEF: ÷${player2.resistanceDivisor.toFixed(1)}`;
         }
 
         function checkGameOver() {
-            if (player1HP <= 0) {
-                alert('Player 2 venceu!');
+            if (player1.hp <= 0) {
+                alert('Player 2 venceu! 🎉');
                 resetGame();
-            } else if (player2HP <= 0) {
-                alert('Player 1 venceu!');
+            } else if (player2.hp <= 0) {
+                alert('Player 1 venceu! 🎉');
                 resetGame();
             }
         }
 
         function resetGame() {
-            player1HP = 100;
-            player2HP = 100;
-            currentTurn = 1;
-            updateHP();
+            location.reload();
         }
 
-        const character = document.querySelector('#character');
 
+
+
+        const character = document.querySelector('#character1');
         character.addEventListener('model-loaded', () => {
-            character.setAttribute('animation-mixer', { clip: '5Idle', loop: 'repeat' });
-            console.log('Personagem 1 carregado com Idle');
+            character.setAttribute('animation-mixer', { clip: '1_boxing_idle', loop: 'repeat' });
+            console.log('Personagem 1 carregado');
         });
 
         const character2 = document.querySelector('#character2');
-
         character2.addEventListener('model-loaded', () => {
-            character2.setAttribute('animation-mixer', { clip: '5Idle', loop: 'repeat' });
-            console.log('Personagem 2 carregado com Idle');
+            character2.setAttribute('animation-mixer', { clip: '1_boxing_idle', loop: 'repeat' });
+            console.log('Personagem 2 carregado');
         });
-
-
 
     </script>
 </body>

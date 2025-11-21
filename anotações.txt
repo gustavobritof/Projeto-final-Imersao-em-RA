@@ -1,0 +1,85 @@
+Personagem começa com:
+100 de vida;
+1.0 de multiplicador de dano base;
+1.0 de divisor de resistência; 
+
+Cada turno o jogador puxa uma carta e joga uma
+maximo de 5 cartas na mão
+caso 
+
+Cartas:
+    Curar: 10 / 20 / 30;
+
+    Bloquear próximo ataque (esquiva);
+
+    Dano (carta + dado):
+        1/2/3 x pelo dado = dano mínimo 1 dano máximo 18.
+
+    Atributos fixos:
+        Multiplicador base de dano. (0.2, 0.3)
+        Divisor de resistência. (0.2, 0.3)
+
+    Puxar carta:
+        Pode puxar 2, 3 ou 4 cartas.
+Personagem começa com:
+100 de vida;
+1.0 de multiplicador de dano base;
+1.0 de divisor de resistência; 
+
+
+Cartas:
+    Curar: 10 / 20 / 30;
+
+    Bloquear próximo ataque (esquiva);
+
+    Dano (carta + dado):
+        1/2/3 x pelo dado = dano mínimo 1 dano máximo 18.
+    
+    Atributos fixos:
+        Aumentar Multiplicador base de dano. (0.2, 0.3)
+        Adicionar ao divisor de resistência. (0.2, 0.3)
+    
+    Puxar carta:
+        Pode puxar 2, 3 ou 4 cartas.
+
+
+3 cartas de cura 1 animação
+3 cartas de dano 3 animações 
+1 de bloqueio de ataque  1 animação de bloqueio
+3 cartas de puxar carta 1 animação para puxar carta ok
+2 cartas de   Atributos fixos 1 animacao para aumento de atributos ok
+
+
+
+
+
+0
+: 
+Hu {name: '10_recover', tracks: Array(99), duration: 3.8333332538604736, blendMode: 2500, uuid: '1becf0c5-2ef4-42b8-aad6-8d2813dcef9a'}
+1
+: 
+Hu {name: '1_boxing_idle', tracks: Array(99), duration: 2.2333333492279053, blendMode: 2500, uuid: 'd404ebd8-a9c5-4e97-b637-04d4637b39f1'}
+2
+: 
+Hu {name: '2_draw_cards', tracks: Array(99), duration: 9.033333778381348, blendMode: 2500, uuid: '19b43528-58ab-4c75-9060-d7551bf4a12d'}
+3
+: 
+Hu {name: '3_attributes_buff', tracks: Array(99), duration: 2.866666555404663, blendMode: 2500, uuid: '8526a33a-7318-422e-9bcd-05babb0006c9'}
+4
+: 
+Hu {name: '4_block', tracks: Array(99), duration: 3.4666666984558105, blendMode: 2500, uuid: '3787f9e8-7459-429b-a27f-72a22efa4e2e'}
+5
+: 
+Hu {name: '5_standing_block_idle', tracks: Array(99), duration: 1.8666666746139526, blendMode: 2500, uuid: 'a7e250d8-5271-4f5f-8693-6604437ac47a'}
+6
+: 
+Hu {name: '6_attack_punch', tracks: Array(99), duration: 1.7666666507720947, blendMode: 2500, uuid: '172dcbf2-5ee0-4da7-be28-3d0aab81f27b'}
+7
+: 
+Hu {name: '7_attack_kick_capoeira', tracks: Array(99), duration: 2.4000000953674316, blendMode: 2500, uuid: 'eb2b1984-88b1-443b-96e1-3914cfbe6b48'}
+8
+: 
+Hu {name: '9_attack_hook_punch', tracks: Array(99), duration: 2.200000047683716, blendMode: 2500, uuid: 'b3b34c86-8e15-4609-aab1-aa5a7985f8ee'}
+9
+: 
+Hu {name: 'armada', tracks: Array(99), duration: 1.6666666269302368, blendMode: 2500, uuid: '3c56d2aa-c715-42a7-a30f-e4bc71fc8823'}
