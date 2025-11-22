@@ -71,7 +71,7 @@
                     <ul>
                         <li><strong>HP Inicial:</strong> Ambos começam com 100 HP</li>
                         <li><strong>Mão Inicial:</strong> 5 cartas</li>
-                        <li><strong>Limite cartaas na Mão:</strong> 7 cartas</li>
+                        <li><strong>Limite de cartas na Mão:</strong> 7 cartas</li>
                         <li><strong>Sistema de Turnos:</strong> Jogador primeiro, CPU depois</li>
                     </ul>
                 </div>
@@ -127,28 +127,65 @@
                             <a-asset-item id="dice" src="assets/d10.glb"></a-asset-item>
                         </a-assets>
 
-                        <a-camera position="0 0 2" look-controls="enabled: false"
+                        <a-camera position="0 1 2" look-controls="enabled: false"
                             wasd-controls="enabled: false"></a-camera>
 
-                        <a-entity gltf-model="#dice" position="0 0 0" scale="0.08 0.08 0.08" rotation="90 0 0"
+                        <a-entity gltf-model="#dice" position="0 0 0" scale="0.06 0.06 0.06" rotation="90 0 0"
                             animation="property: rotation; to: 90 360 0; loop: true; dur: 5000; easing: linear">
                         </a-entity>
 
                         <a-sky color="#161616"></a-sky>
-                        <a-light type="ambient" intensity="0.4"></a-light>
+
                         <a-light type="point" position="0 1 1" intensity="1" color="#aeef17"></a-light>
-                        <a-light type="point" position="0 -1 1" intensity="0.5" color="#ffffff"></a-light>
+
                     </a-scene>
                 </div>
                 <div class="info-section">
                     <h2>Como Jogar</h2>
                     <ol>
-                        <li>Aponte a câmera para o marcador AR</li>
+
+                        <li>Aponte a câmera para o marcador (<a
+                                href="https://upload.wikimedia.org/wikiversity/en/0/08/Pattern-hiro.png" target="_blank"
+                                style="color: #AEEF17;">Hiro</a>)</li>
                         <li>Selecione uma carta clicando nela</li>
                         <li>Clique em "Jogar Carta"</li>
                         <li>Aguarde o turno da IA</li>
                         <li>Repita até alguém vencer!</li>
                     </ol>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-section">
+                    <h2>Planos futuros</h2>
+                    <ul>
+                        <li>Adicionar áudio</li>
+
+                        <li>Marcadores dinâmicos(O usuário poderá usar diferentes marcadores para exibir o tabuleiro)
+                        </li>
+                        <li>Implementar multiplayer</li>
+                    </ul>
+                </div>
+                <div class="model-viewer">
+                    <a-scene embedded style="width: 100%; height: 280px;">
+                        <a-assets>
+                            <img id="cardTexture1" src="assets/cards/puxe1.png">
+                        </a-assets>
+
+                        <a-camera position="0 0 3" look-controls="enabled: false"
+                            wasd-controls="enabled: false"></a-camera>
+
+                        <a-plane src="#cardTexture1" width="1.8" height="3.5" position="0 0 0" material="side: double"
+                            animation="property: rotation; to: 0 360 0; loop: true; dur: 6000; easing: linear">
+                        </a-plane>
+
+                        <a-sky color="#161616"></a-sky>
+                        <a-light type="ambient" intensity="0.4"></a-light>
+                        <a-light type="directional" position="2 3 2" intensity="0.8" color="#aeef17"></a-light>
+                        <a-light type="point" position="0 0 2" intensity="0.6" color="#ffffff"></a-light>
+
+
+                    </a-scene>
                 </div>
             </div>
 
