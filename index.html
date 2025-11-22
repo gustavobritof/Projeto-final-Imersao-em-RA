@@ -290,7 +290,7 @@
         // Função para mostrar e rolar o dado
         function showDiceRoll(result) {
             const dice = document.querySelector('#dice');
-            const diceText = document.querySelector('#diceText');
+            // const diceText = document.querySelector('#diceText');
 
             dice.setAttribute('visible', 'true');
             dice.setAttribute('scale', '0.006 0.006 0.006');
@@ -317,12 +317,12 @@
             });
 
             // Mostra o número após a rotação
-            setTimeout(() => {
-                diceText.setAttribute('visible', 'true');
-                diceText.setAttribute('text', 'value', result);
-                diceText.setAttribute('scale', '1 1 1');
-                console.log(`Resultado do dado: ${result}`);
-            }, 1000);
+            // setTimeout(() => {
+            //     diceText.setAttribute('visible', 'true');
+            //     diceText.setAttribute('text', 'value', result);
+            //     diceText.setAttribute('scale', '1 1 1');
+            //     console.log(`Resultado do dado: ${result}`);
+            // }, 1000);
 
             // 
             // setTimeout(() => {
