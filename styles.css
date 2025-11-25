@@ -162,6 +162,62 @@
             display: flex;
         }
 
+        #handleAudio {
+            background-color: #AEEF17;
+            width: 50px;
+            height: 50px;
+            z-index: 101;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(174, 239, 23, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        #handleAudio:hover {
+            background-color: #9dd614;
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(174, 239, 23, 0.5);
+        }
+
+        #handleAudio i {
+            font-size: 1.5em;
+            color: #161616;
+        }
+
+        @media (max-width: 768px) {
+            #handleAudio {
+                width: 45px;
+                height: 45px;
+                top: 15px;
+                right: 15px;
+            }
+
+            #handleAudio i {
+                font-size: 1.3em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #handleAudio {
+                width: 40px;
+                height: 40px;
+                top: 10px;
+                right: 10px;
+            }
+
+            #handleAudio i {
+                font-size: 1.2em;
+            }
+        }
+
         /* Container das barras de vida */
         .hp-container {
             display: flex;

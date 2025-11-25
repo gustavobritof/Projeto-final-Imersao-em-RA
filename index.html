@@ -13,13 +13,16 @@
 
 <body>
 
+    <audio id="bgMusic" src="./assets/fighting action.mp3" loop></audio>
+
     <div id="initialScreen">
         <div class="initial-content">
             <h1>Projeto Final IREDE</h1>
             <button id="playButton">Jogar</button>
-            <button id="howToPlayButton" onclick="location.href='howToPlay.html'">Como Jogar</button>
-            <button id="infoButton" onclick="location.href='infos.html'">Informações</button>
+            <button id="howToPlayButton">Como Jogar</button>
+            <button id="infoButton">Informações</button>
         </div>
+        <button id="handleAudio"><i class="bi bi-volume-up-fill"></i></button>
     </div>
 
 
@@ -996,7 +999,23 @@
             console.log('Personagem 2 carregado');
         });
 
+
+        document.getElementById('howToPlayButton').addEventListener('click', () => {
+            playClickSound();
+            setTimeout(() => {
+                location.href = 'howToPlay.html';
+            }, 1000);
+        });
+
+        document.getElementById('infoButton').addEventListener('click', () => {
+            playClickSound();
+            setTimeout(() => {
+                location.href = 'infos.html';
+            }, 1000);
+        });
+
     </script>
+    <script src="audio-control.js"></script>
 </body>
 
 </html>

@@ -148,12 +148,25 @@
 
 
             <div class="info-footer">
-                <button class="back-button" onclick="location.href='index.html'">
+                <button class="back-button" id="back-button">
                     ← Voltar ao Menu
                 </button>
             </div>
         </div>
     </div>
+
+    <script>
+
+        document.getElementById('back-button').addEventListener('click', () => {
+            playClickSound();
+            setTimeout(() => {
+                location.href = 'index.html';
+            }, 1000);
+        });
+
+
+    </script>
+    <script src="audio-control.js"></script>
 </body>
 
 </html>
